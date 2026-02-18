@@ -1,6 +1,7 @@
 # pylint: disable=abstract-method, missing-module-docstring
 
 import json
+import re
 import subprocess
 from typing import Callable
 
@@ -84,12 +85,12 @@ class GpuModule(MatrixModule):
             self.__line_module.write(update_device, write_queue, False)
 
             while self.running:
-                gpu_info = json.loads(
-                    subprocess.check_output(
-                        [self.__config.arguments.gpu_command]
-                        + self.__config.arguments.gpu_command_arguments.split(",")
-                    )
-                )
+                raw = subprocess.check_output(
+                    [self.__config.arguments.gpu_command]
+                    + self.__config.arguments.gpu_command_arguments.split(",")
+                ).decode()
+                raw = re.sub(r'"(\s*\n\s+")', r'",\1', raw)
+                gpu_info = json.loads(raw)
                 gpu_percentage = gpu_info[self.__config.arguments.gpu_index][
                     self.__config.arguments.gpu_util_property
                 ][:-1]
