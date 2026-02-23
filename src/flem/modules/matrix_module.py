@@ -33,6 +33,7 @@ from flem.modules.utilities.characters import (
     sun,
     snowflake,
     battery,
+    minus,
 )
 
 
@@ -130,6 +131,7 @@ class MatrixModule:
             "7": self._seven,
             "8": self._eight,
             "9": self._nine,
+            "-": self._minus,
             "%": self._percent,
             "!": self._exclamation,
             "b": self._b,
@@ -487,6 +489,14 @@ class MatrixModule:
         start_col: int,
     ) -> None:
         self._write_array(cloud_storm, start_row, start_col, write_queue)
+
+    def _minus(
+        self,
+        write_queue: Callable[[tuple[int, int, bool]], None],
+        start_row: int,
+        start_col: int,
+    ) -> None:
+        self._write_array(minus, start_row, start_col, write_queue)
 
     def _degree(
         self,

@@ -197,18 +197,34 @@ class WeatherModule(MatrixModule):
 
         start_col = self.__config.position.x
 
-        for char in str(round(temperature)):
-            self._write_object(
-                char,
-                write_queue,
-                start_row,
-                start_col,
-            )
-            start_col += 4
+        temperature = str(round(temperature))
+
+        for char in temperature:
+            if len(temperature) < 3:
+                start_col += 2
+                self._write_object(
+                    char,
+                    write_queue,
+                    start_row,
+                    start_col,
+                )
+                start_col += 1
+                # self._write_object("degree", write_queue, start_row - 1, start_col - 1)
+            else:
+                self._write_object(
+                    char,
+                    write_queue,
+                    start_row,
+                    start_col,
+                )
+                if char == "-":
+                    start_col += 2
+                else:
+                    start_col += 3
 
         del temperature
 
-        self._write_object("degree", write_queue, start_row - 1, start_col - 1)
+        # self._write_object("degree", write_queue, start_row - 1, start_col - 1)
 
     def __draw_wind_speed(
         self,
