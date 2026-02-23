@@ -9,8 +9,8 @@ from flem.models.config_schema import ModulePositionSchema, ModuleSchema
 class CpuConfigArguments:
     def __init__(
         self,
-        temp_sensor: str,
-        temp_sensor_index: int,
+        temp_sensor: str = None,
+        temp_sensor_index: int = None,
         show_temp: bool = False,
         use_bar_graph: bool = False,
     ):
@@ -34,8 +34,8 @@ class CpuConfig(ModuleConfig):
 
 
 class CpuConfigArgumentsSchema(Schema):
-    temp_sensor = fields.Str()
-    temp_sensor_index = fields.Int()
+    temp_sensor = fields.Str(required=False, load_default=None)
+    temp_sensor_index = fields.Int(required=False, load_default=None)
     show_temp = fields.Bool(required=False, load_default=False)
     use_bar_graph = fields.Bool(required=False, load_default=False)
 
